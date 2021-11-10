@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class TodoModel {
   late String title;
   bool done;

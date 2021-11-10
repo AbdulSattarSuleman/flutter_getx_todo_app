@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_todo_app/controllers/todo_controller.dart';
+import 'package:flutter_getx_todo_app/models/todo_model.dart';
+import 'package:get/get.dart';
 
 class TodoScreen extends StatelessWidget {
-  const TodoScreen({Key? key}) : super(key: key);
+  // const TodoScreen({Key? key}) : super(key: key);
 
+  TextEditingController getInputValue = TextEditingController();
+  final TodoController todoController = Get.find<TodoController>();
+
+  TodoScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,10 +18,12 @@ class TodoScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              const Expanded(
+              Expanded(
                   child: TextField(
+                controller: getInputValue,
                 autofocus: true,
-                decoration: InputDecoration(
+                keyboardType: TextInputType.multiline,
+                decoration: const InputDecoration(
                   hintText: 'What do you want to accomplish?',
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -26,13 +35,18 @@ class TodoScreen extends StatelessWidget {
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           primary: Colors.red, onPrimary: Colors.white),
-                      onPressed: () {},
-                      child: Text('Cancel')),
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: const Text('Cancel')),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           primary: Colors.green, onPrimary: Colors.white),
-                      onPressed: () {},
-                      child: Text('Add')),
+                      onPressed: () {
+                        todoController.todos
+                            .add(TodoModel(title: getInputValue.text));
+                      },
+                      child: const Text('Add')),
                 ],
               )
             ],
